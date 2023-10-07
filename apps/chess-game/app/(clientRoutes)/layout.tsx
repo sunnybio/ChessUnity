@@ -12,10 +12,17 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
-}) {
+}) : JSX.Element{
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+          <body className={inter.className}>
+      {/*<TopBar/>*/}
+      <section className="bg-black text-emerald-600 w-max">
+dasdasd
+      {children}
+      </section>
+
+      </body>
     </html>
   )
 }

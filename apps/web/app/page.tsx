@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Card } from "ui";
 import styles from "./page.module.css";
 
 function Gradient({
@@ -51,7 +50,7 @@ const LINKS = [
 
 export default function Page(): JSX.Element {
   return (
-    <main className={styles.main}>
+    <main className={`bg-black`}>
       <div className={styles.description}>
         <p>
           examples/basic&nbsp;
@@ -76,7 +75,7 @@ export default function Page(): JSX.Element {
         </div>
       </div>
 
-      <div className={styles.hero}>
+      <div className={`bg-black ${styles.hero}`}>
         <div className={styles.heroContent}>
           <div className={styles.logos}>
             <div className={styles.circles}>
@@ -125,11 +124,7 @@ export default function Page(): JSX.Element {
       </div>
 
       <div className={styles.grid}>
-        {LINKS.map(({ title, href, description }) => (
-          <Card className={styles.card} href={href} key={title} title={title}>
-            {description}
-          </Card>
-        ))}
+
       </div>
     </main>
   );
