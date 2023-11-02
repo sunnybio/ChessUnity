@@ -17,10 +17,8 @@ export default function RootLayout({
     <html lang="en">
           <body className={inter.className}>
       {/*<TopBar/>*/}
-      <section className="bg-red-200">
-dasdasd
+
       {children}
-      </section>
 
       </body>
     </html>
