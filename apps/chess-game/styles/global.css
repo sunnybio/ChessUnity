@@ -5,25 +5,4 @@
 
 
 
-@layer base {
-  :root {
-    --background: #7f7f7f;
-    --white: #FFF;
-    --red: #CD000C;
-    --card: #141414;
-    --card-border: #2E2E2E;
-    --primary: #2C2C2C;
-    --radius: 0.5rem;
-    --para:#929292;
-  }
 
-  * {
-    border-color: var(--card-border);
-  }
-
-    html,
-    body {
-      background-color: var(--background);
-  }
-
-      }
