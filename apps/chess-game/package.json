@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "db": "*",
-    "next": "latest",
+    "next": "^14.0.3",
+    "next-auth": "^4.24.5",
     "react": "latest",
     "react-dom": "latest",
     "store": "*",
