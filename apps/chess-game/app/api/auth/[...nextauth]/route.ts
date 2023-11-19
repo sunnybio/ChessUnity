@@ -2,6 +2,8 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import type { Provider } from "next-auth/providers";
+import dbConnect from "db/src/mongodb/connect/connectMongodb";
+import User from "db/src/mongodb/Models/Users";
 
 export const authOptions = {
     // Configure one or more authentication providers
@@ -11,11 +13,13 @@ export const authOptions = {
             clientSecret: process.env.NEXT_GOOGLE_CLIENT_SECRET,
         }),
         CredentialsProvider({
-            name: "Username",
             // `credentials` is used to generate a form on the sign in page.
             // You can specify which fields should be submitted, by adding keys to the `credentials` object.
             // e.g. domain, username, password, 2FA token, etc.
             // You can pass any HTML attribute to the <input> tag through the object.
+            id: "credentials",
+            name: "Credentials",
+            type: "credentials",
             credentials: {
                 username: {
                     label: "Username",
@@ -24,22 +28,38 @@ export const authOptions = {
                 },
                 password: { label: "Password", type: "password" },
             },
-            async authorize(credentials, req) {
-                // Add logic here to look up the user from the credentials supplied
-                const user = {
-                    id: "1",
-                    name: "J Smith",
-                    email: "jsmith@example.com",
-                };
+            async authorize(credentials) {
+                await dbConnect();
+                console.log(credentials);
+                const username = credentials?.username;
+                const password = credentials?.password;
 
-                if (user) {
+                const userq = await User.findOne({
+                    username,
+                });
+                if (userq) {
+                    if (userq.password !== password) {
+                        return null;
+                    }
+
                     // Any object returned will be saved in `user` property of the JWT
-                    return user;
+                    return {
+                        id: userq._id,
+                        username: userq.username,
+                    };
                 }
-                // If you return null then an error will be displayed advising the user to check their details.
-                return null;
-
-                // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+                const newUser = new User({
+                    username,
+                    password,
+                });
+                await newUser.save();
+                console.log("check new user", newUser);
+                if (newUser) {
+                    return {
+                        id: newUser._id,
+                        username: newUser.username,
+                    };
+                }
             },
         }),
         // ...add more providers here
@@ -47,6 +67,9 @@ export const authOptions = {
     secret: process.env.NEXT_AUTH_SECRET,
     session: {
         strategy: "jwt",
+    },
+    jwt: {
+        encryption: true,
     },
 };
 const handler = NextAuth(authOptions);

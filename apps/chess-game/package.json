@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "db": "*",
+    "mongodb": "^6.3.0",
+    "moongoose": "^0.0.5",
     "next": "^14.0.3",
     "next-auth": "^4.24.5",
     "react": "latest",
