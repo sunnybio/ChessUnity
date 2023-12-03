@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "chess.ts": "^0.16.2",
     "db": "*",
     "mongodb": "^6.3.0",
     "moongoose": "^0.0.5",
