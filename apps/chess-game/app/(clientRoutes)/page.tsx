@@ -3,18 +3,14 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 
-type Repo = {
-    name: string;
-    stargazers_count: number;
-};
 export default async function Home(): Promise<ReactNode> {
     const session = await getServerSession(authOptions);
 
     console.log("in page", session);
     if (session) {
         return (
-            <div className="w-full md:w-full xl:w-full">
-                <div className="flex justify-between">
+            <div className="h-screen">
+                <nav className="flex justify-between">
                     signed in as {session.user.name}, {session.user.email}
                     <br />
                     <button
@@ -22,6 +18,14 @@ export default async function Home(): Promise<ReactNode> {
                         type="button"
                     >
                         <Link href="/api/auth/signout">SignOut</Link>
+                    </button>
+                </nav>
+                <div className="flex rounded justify-center items-center bg-black h-full">
+                    <button
+                        className="inline-block rounded justify-center bg-blue-50 px-6"
+                        type="button"
+                    >
+                        Start Game
                     </button>
                 </div>
             </div>
