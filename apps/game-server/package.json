@@ -1,0 +1,17 @@
+{
+  "name": "game-server",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "author": "shadow",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon index.ts"
+  },
+  "dependencies": {
+    "nodemon": "^3.0.2",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.5.10"
+  }
+}
