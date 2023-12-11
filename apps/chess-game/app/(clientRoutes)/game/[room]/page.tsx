@@ -2,10 +2,18 @@
 import Chessboard from "chessboardjsx";
 import { Chess } from "chess.ts";
 import { useEffect, useState } from "react";
+
 const GameRoom = (): JSX.Element => {
   const [position, setPostion] = useState("start");
   const [msgList, setmsgList] = useState(["hello", "world"]);
   console.log("position", position);
+  const ws = new WebSocket("ws://localhost:8089");
+  ws.addEventListener("open", (event) => {
+    ws.send("HelloServer");
+  });
+  ws.addEventListener("message", (event: any) => {
+    console.log(event.data);
+  });
   useEffect(() => {
     const game = new Chess();
     let move = game.moves()[3];
