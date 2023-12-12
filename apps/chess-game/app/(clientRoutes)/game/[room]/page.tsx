@@ -1,13 +1,16 @@
 'use client'
 import Chessboard from 'chessboardjsx'
-import { Chess } from 'chess.ts'
+import { Chess, Piece } from 'chess.ts'
 import { useEffect, useState } from 'react'
 
 const ws = new WebSocket('ws://localhost:8080')
+const game = new Chess()
+
 const GameRoom = (): JSX.Element => {
     const [position, setPostion] = useState('start')
     const [msgList, setmsgList] = useState(['hello'])
     const [msg, setMsg] = useState('')
+
     ws.onmessage = (event) => {
         if (event.data instanceof Blob) {
             const reader = new FileReader()
@@ -23,19 +26,31 @@ const GameRoom = (): JSX.Element => {
             setmsgList(newMessages)
         }
     }
-    useEffect(() => {
-        const game = new Chess()
-        let move = game.moves()[3]
-        game.move(move)
-        const timer = setTimeout(() => {
-            setPostion(game.fen())
-        }, 1000)
-    }, [])
 
-    const sendMsg = async (e: any) => {
+    const sendMsg = async (_: any) => {
         ws.send(msg)
         setMsg('')
     }
+    const movePieceOnDrag = (square: string) => {
+        console.log(square)
+    }
+
+    const pieceMove = (moveInfo: {
+        sourceSquare: string
+        targetSquare: string
+        piece: string
+    }) => {
+        const move = game.move(moveInfo.targetSquare)
+
+        if (move !== null) {
+            // setTimeout(() => {
+            setPostion(game.fen())
+            // }, 500)
+        } else {
+            console.log('move is not valid')
+        }
+    }
+
     if (typeof window !== 'undefined') {
         return (
             <div className="grid grid-cols-4 h-screen w-full bg-black">
@@ -55,7 +70,14 @@ const GameRoom = (): JSX.Element => {
                     <button onClick={sendMsg}>Send</button>
                 </div>
                 <div className="col-span-3 mx-auto">
-                    <Chessboard position={position} />
+                    <Chessboard
+                        onDrop={pieceMove}
+                        position={position}
+                        onPieceClick={(piece: any) => {
+                            console.log(piece)
+                        }}
+                        onDragOverSquare={movePieceOnDrag}
+                    />
                 </div>
             </div>
         )
