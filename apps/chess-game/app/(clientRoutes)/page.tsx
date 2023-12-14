@@ -6,9 +6,6 @@ import { authOptions } from '../api/auth/[...nextauth]/route'
 export default async function Home(): Promise<ReactNode> {
     const session = await getServerSession(authOptions)
 
-    const generateRandomString = (length: number): string => {
-        return Math.random().toString(20).substr(2, length)
-    }
     console.log('in page', session)
     if (session) {
         return (
@@ -28,7 +25,7 @@ export default async function Home(): Promise<ReactNode> {
                         className="inline-block rounded justify-center bg-blue-50 px-6"
                         type="button"
                     >
-                        <Link href="/game/1"> Start Game </Link>
+                        <Link href="/game"> Start Game </Link>
                     </button>
                 </div>
             </div>
