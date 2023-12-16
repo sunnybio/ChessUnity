@@ -17,7 +17,7 @@ export class RedisSubscriptionManager {
         this.publisher = createClient()
 
         this.publisher.connect()
-        this.publisher.connect()
+        this.subscriber.connect()
 
         this.subscriptions = new Map<string, string[]>()
         this.reverseSubscription = new Map<

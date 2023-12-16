@@ -1,6 +1,5 @@
 'use client'
 
-import { redirect } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 const MainPage = (): JSX.Element => {
@@ -11,11 +10,30 @@ const MainPage = (): JSX.Element => {
         console.log(roomId.data)
         router.push(`/game/${roomId.data}`)
     }
-    return (
-        <div>
-            <button onClick={createGame}>start game</button>
 
-            <button>join game</button>
+    const joinGame = async () => {
+        const joinRoomId = await axios.get('http://localhost:8080/join-room')
+
+        console.log('new room id', joinRoomId)
+        router.push(`/game/${joinRoomId.data}`)
+    }
+    return (
+        <div className="block bg-black h-screen w-full justify-center">
+            <div className="content-center">
+                <button
+                    className="bg-white hover:bg-gray-400 text-black font-bold py-2 px-4 rounded-full"
+                    onClick={createGame}
+                >
+                    start game
+                </button>
+
+                <button
+                    onClick={joinGame}
+                    className="bg-white hover:bg-gray-400 text-black font-bold py-2 px-4 rounded-full"
+                >
+                    join game
+                </button>
+            </div>
         </div>
     )
 }

@@ -30,12 +30,12 @@ const emptyRooms: string[] = []
 //WebSocketServer logic
 wss.on('connection', async function connection(ws: any) {
     const wsId: string = generateRandomString(12)
+    console.log('in server', wsId)
     ws.on('message', (message: string) => {
         console.log('received: %s', message)
         const data: Message = JSON.parse(message.toString())
 
         if (data.type === 'join') {
-            emptyRooms.push(data.payload.roomId)
             // if (rooms.get(data.payload.roomId)) {
             //     rooms.set(
             //         data.payload.roomId,
@@ -54,6 +54,7 @@ wss.on('connection', async function connection(ws: any) {
         }
         if (data.type === 'message') {
             const roomId = players[wsId].room
+            console.log(`roomId ${roomId}`)
             const message = data.payload.message
 
             RedisSubscriptionManager.getInstance().playMove(roomId, message)
@@ -77,14 +78,20 @@ const generateRandomString = (length: number): string => {
 // api routes to get the roomId
 app.get('/create-room', (req, res) => {
     const roomId: string = generateRandomString(12)
+
+    emptyRooms.push(roomId)
     rooms.set(roomId, 0)
     res.send(roomId)
 })
 
 app.get('/join-room', (req, res) => {
+    console.log('asd', emptyRooms)
     if (emptyRooms.length !== 0) {
-        res.send(emptyRooms.shift())
+        const roomId = emptyRooms.shift()
+        console.log('roomId when joining', roomId)
+        res.send(roomId)
+    } else {
+        res.send(generateRandomString(12))
     }
-    res.send(generateRandomString(12))
 })
 server.listen(port)
