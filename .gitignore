@@ -4,7 +4,9 @@
 node_modules
 .pnp
 .pnp.js
-
+*.js
+*.d.ts
+*.d.ts.map
 # testing
 coverage
 

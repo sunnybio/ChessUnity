@@ -1,16 +1,18 @@
 'use client'
 import Chessboard from 'chessboardjsx'
-import { Chess, Piece } from 'chess.ts'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import { Chess } from 'chess.ts'
+import { useState } from 'react'
 import { useParams } from 'next/navigation'
+import { Params } from 'next/dist/shared/lib/router/utils/route-matcher'
 
-import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 const ws = new WebSocket('ws://localhost:8080')
 const game = new Chess()
 
-type socketMessage = { type: string; payload: { message: message_type } }
-type message_type = {
+interface SocketMessage {
+    type: string
+    payload: { message: MessageType }
+}
+interface MessageType {
     to: string
     from: string
     color: string
@@ -21,17 +23,15 @@ type message_type = {
 
 const GameRoom = (): JSX.Element => {
     const [position, setPostion] = useState('start')
-    const [msgList, setmsgList] = useState(['hello'])
+    const [msgList] = useState(['hello'])
     const [msg, setMsg] = useState('')
 
-    const [socket, setSocket] = useState<WebSocket | null>(null)
-
-    const param = useParams()
+    const param: Params = useParams()
     console.log(`router param ${param.room}`)
-    const roomId = param.room
+    const roomId: string = param.room
     console.log(`creating conneciton ${roomId}`)
 
-    ws.onopen = (event) => {
+    ws.onopen = (_) => {
         const joinReq = {
             type: 'join',
             payload: {
@@ -55,18 +55,17 @@ const GameRoom = (): JSX.Element => {
         } else {
             // const newMessages = [...msgList, event.data]
             // setmsgList(newMessages)
-            console.log('json', event.data)
-            const data: socketMessage = JSON.parse(event.data)
+            const data: SocketMessage = JSON.parse(event.data)
             console.log(data)
 
-            const message: message_type = data.payload.message
-            const move = game.move(message.to)
+            const message: MessageType = data.payload.message
+            game.move(message.to)
 
             setPostion(game.fen())
         }
     }
 
-    const sendMsg = async (_: any) => {
+    const sendMsg = (_: any) => {
         ws.send(msg)
         setMsg('')
     }
@@ -118,9 +117,6 @@ const GameRoom = (): JSX.Element => {
                     <Chessboard
                         onDrop={pieceMove}
                         position={position}
-                        onPieceClick={(piece: any) => {
-                            console.log(piece)
-                        }}
                         onDragOverSquare={movePieceOnDrag}
                     />
                 </div>

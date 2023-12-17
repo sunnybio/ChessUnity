@@ -1,0 +1,29 @@
+FROM node:21.2
+
+
+WORKDIR /base
+COPY ["package.json", "./package.json"]
+COPY ["turbo.json", "./turbo.json"]
+COPY ["yarn.lock", "./yarn.lock"]
+COPY ["tsconfig.json", "./tsconfig.json"]
+
+COPY ["apps/chess-game", "./apps/chess-game"]
+COPY ["packages/backend", "./packages/backend"]
+COPY ["packages/db", "./packages/db"]
+COPY ["packages/store", "./packages/store"]
+COPY ["packages/ui", "./packages/ui"]
+COPY ["packages/eslint-config-custom", "./packages/eslint-config-custom"]
+COPY ["packages/tsconfig", "./packages/tsconfig"]
+
+
+RUN cd /base
+
+RUN yarn
+RUN yarn build
+
+
+EXPOSE 3000
+
+WORKDIR /base/apps/chess-game
+
+CMD ["yarn","dev"]
