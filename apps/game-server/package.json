@@ -5,7 +5,7 @@
     "author": "shadow",
     "license": "MIT",
     "scripts": {
-        "dev": "nodemon index.ts",
+        "dev": "nodemon src/index.ts",
         "build": "npx tsc",
         "start": "pm2 start dist/index.js"
     },

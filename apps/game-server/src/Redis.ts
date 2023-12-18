@@ -87,6 +87,14 @@ export class RedisSubscriptionManager {
         })
     }
 
+    startgame(room: string, message: string) {
+        this.publish(room, {
+            type: 'start-game',
+            payload: {
+                message,
+            },
+        })
+    }
     publish(room: string, message: any) {
         console.log(`publishing to the room ${room}`)
         this.publisher.publish(room, JSON.stringify(message))
