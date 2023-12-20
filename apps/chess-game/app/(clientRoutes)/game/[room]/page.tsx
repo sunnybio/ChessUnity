@@ -45,7 +45,11 @@ const GameRoom = (): JSX.Element => {
         targetSquare: string
         piece: string
     }) => {
-        const move = game.move(moveInfo.targetSquare)
+        const move = game.move({
+            to: moveInfo.targetSquare,
+            from: moveInfo.sourceSquare,
+        })
+        console.log('moves', move)
 
         if (move !== null) {
             const moveMsg = {
@@ -61,6 +65,18 @@ const GameRoom = (): JSX.Element => {
         } else {
             console.log('move is not valid')
         }
+    }
+
+    const genarateBoardWidth = (screen: {
+        screenWidth: number
+        screenHeight: number
+    }) => {
+        const { screenWidth, screenHeight } = screen
+        console.log('generation', screenWidth, screenHeight)
+        const factor = 0.7
+        const width: number = Math.min(screenWidth, screenHeight) * factor
+        console.log('asd', width)
+        return width
     }
 
     useEffect(() => {
@@ -111,7 +127,7 @@ const GameRoom = (): JSX.Element => {
 
                 if (data.type === 'message') {
                     const message: MessageType = data.payload.message
-                    game.move(message.to)
+                    game.move({ to: message.to, from: message.from })
 
                     setPostion(game.fen())
                 }
@@ -133,7 +149,7 @@ const GameRoom = (): JSX.Element => {
     } else {
         if (typeof window !== 'undefined') {
             return (
-                <div className="grid grid-cols-4 h-screen w-full bg-black">
+                <div className="grid grid-cols-4 h-screen w-screen bg-black">
                     <div className="col-span-1 bg-gray-400">
                         <div className="block h-1/3 bg-zinc-500 rounded-l ">
                             {msgList.map((message, index) => (
@@ -149,11 +165,12 @@ const GameRoom = (): JSX.Element => {
                         />
                         <button onClick={sendMsg}>Send</button>
                     </div>
-                    <div className="col-span-3 mx-auto">
+                    <div className="col-span-3 mx-auto p-1.5">
                         <Chessboard
                             onDrop={pieceMove}
                             position={position}
                             onDragOverSquare={movePieceOnDrag}
+                            calcWidth={genarateBoardWidth}
                         />
                     </div>
                 </div>

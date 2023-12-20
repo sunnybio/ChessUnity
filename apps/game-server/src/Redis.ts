@@ -47,6 +47,7 @@ export class RedisSubscriptionManager {
         ) {
             this.subscriber.subscribe(room, (payload) => {
                 try {
+                    console.log('in sub', payload)
                     const subscribers = this.reverseSubscription.get(room) || {}
                     Object.values(subscribers).forEach(({ ws }) => {
                         ws.send(payload)
@@ -99,7 +100,7 @@ export class RedisSubscriptionManager {
         })
     }
     publish(room: string, message: any) {
-        console.log(`publishing to the room ${room}`)
+        console.log(`publishing to the room ${room} ${message}`)
         this.publisher.publish(room, JSON.stringify(message))
     }
 }
