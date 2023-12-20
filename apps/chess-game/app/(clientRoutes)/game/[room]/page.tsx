@@ -64,8 +64,19 @@ const GameRoom = (): JSX.Element => {
     }
 
     useEffect(() => {
-        const websocket = new WebSocket('ws://localhost:8080')
-        setWs(ws)
+        console.log(process.env)
+        let WEBSOCKETSERVER_URL: string | undefined =
+            process.env.WEBSOCKETSERVER_URL
+
+        WEBSOCKETSERVER_URL = 'ws://localhost:8080'
+
+        console.log('here')
+        console.log(WEBSOCKETSERVER_URL)
+        if (!WEBSOCKETSERVER_URL) {
+            throw new Error('websocket server url not found in env variable')
+        }
+        const websocket = new WebSocket(WEBSOCKETSERVER_URL)
+        setWs(websocket)
         websocket.onopen = (_) => {
             console.log('opened ws')
             const joinReq = {

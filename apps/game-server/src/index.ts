@@ -40,6 +40,7 @@ wss.on('connection', async function connection(ws: any) {
             //
             //     rooms.set(
             //         data.payload.roomId,
+            //
             //         rooms.get(data.payload.roomId) + 1
             //     )
             // }
@@ -60,7 +61,13 @@ wss.on('connection', async function connection(ws: any) {
 
                 if (playerNumber != undefined && playerNumber < 2) {
                     rooms.set(roomId, playerNumber + 1)
-                    const joiningMsg = { type: 'game-start', message: 'start' }
+                    const joiningMsg = {
+                        type: 'game-start',
+                        message: {
+                            orientation: 'white',
+                            postionFen: '',
+                        },
+                    }
                     RedisSubscriptionManager.getInstance().startgame(
                         roomId,
                         joiningMsg.message

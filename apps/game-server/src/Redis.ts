@@ -87,7 +87,10 @@ export class RedisSubscriptionManager {
         })
     }
 
-    startgame(room: string, message: string) {
+    startgame(
+        room: string,
+        message: { orientation: string; postionFen: string }
+    ) {
         this.publish(room, {
             type: 'start-game',
             payload: {

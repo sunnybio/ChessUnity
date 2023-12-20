@@ -1,0 +1,42 @@
+version: '1'
+
+services:
+    mongodb:
+        image: mongo:latest
+        ports:
+            - '27017:27017'
+
+        volumes:
+            - mongodb_data:/data/db
+    redis:
+        image: redis:latest
+        ports:
+            - '6379:6479'
+    game_server:
+        build:
+            context: .
+            dockerfile: Dockerfile.ws
+
+        ports:
+            - '8080:8080'
+
+        environment:
+            - MONGODB_URL=mongodb://mongodb:27017
+        depends_on:
+            - mongodb
+            - redis
+    ui_server:
+        build:
+            context: .
+            dockerfile: Dockerfile.Next
+
+        ports:
+            - '3000:3000'
+
+        environment:
+            - MONGODB_URL=mongodb://mongodb:27017
+            - WEBSOCKETSERVER_URL=ws://game_server:8080
+        depends_on:
+            - game_server
+volumes:
+    mongodb_data:
