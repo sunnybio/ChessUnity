@@ -84,8 +84,8 @@ const GameRoom = (): JSX.Element => {
         let WEBSOCKETSERVER_URL: string | undefined =
             process.env.WEBSOCKETSERVER_URL
 
+        // remove this
         WEBSOCKETSERVER_URL = 'ws://localhost:8080'
-
         console.log('here')
         console.log(WEBSOCKETSERVER_URL)
         if (!WEBSOCKETSERVER_URL) {

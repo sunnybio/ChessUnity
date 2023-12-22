@@ -1,4 +1,4 @@
-FROM node:21.2 as base
+FROM node:alpine as base
 
 EXPOSE 3000
 

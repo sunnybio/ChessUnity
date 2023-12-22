@@ -11,7 +11,7 @@ services:
     redis:
         image: redis:latest
         ports:
-            - '6379:6479'
+            - '6379:6379'
     game_server:
         build:
             context: .
@@ -23,6 +23,7 @@ services:
 
         environment:
             - MONGODB_URL=mongodb://mongodb:27017
+            - REDIS_URL=redis://redis:6379
         volumes:
             - ./apps/game_server/:/base/apps/chess-game
         depends_on:

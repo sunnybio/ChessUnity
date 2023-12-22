@@ -9,3 +9,5 @@ scripts
 *Dockerfile*
 node_modules
 .env
+.turbo
+.next

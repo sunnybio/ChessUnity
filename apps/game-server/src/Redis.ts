@@ -13,8 +13,13 @@ export class RedisSubscriptionManager {
     >
 
     private constructor() {
-        this.subscriber = createClient()
-        this.publisher = createClient()
+        let redisUrl: string | undefined = process.env.REDIS_URL
+        redisUrl = 'redis://redis:6379'
+        if (!redisUrl) {
+            throw new Error('redis url not found ')
+        }
+        this.subscriber = createClient({ url: redisUrl })
+        this.publisher = createClient({ url: redisUrl })
 
         this.publisher.connect()
         this.subscriber.connect()
