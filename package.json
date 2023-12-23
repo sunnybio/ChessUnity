@@ -1,24 +1,25 @@
 {
-  "private": true,
-  "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
-  },
-  "devDependencies": {
-    "eslint": "^8.48.0",
-    "prettier": "^3.0.3",
-    "tsconfig": "*",
-    "turbo": "latest"
-  },
-  "name": "chessWebApp",
-  "packageManager": "yarn@1.22.19",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "dependencies": {
-    "next-auth": "^4.24.5"
-  }
+    "private": true,
+    "scripts": {
+        "build": "turbo run build",
+        "dev": "turbo run dev",
+        "lint": "turbo run lint",
+        "start": "turbo run start",
+        "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    },
+    "devDependencies": {
+        "eslint": "^8.48.0",
+        "prettier": "^3.0.3",
+        "tsconfig": "*",
+        "turbo": "^1.11.2"
+    },
+    "name": "chessWebApp",
+    "packageManager": "yarn@1.22.19",
+    "workspaces": [
+        "apps/*",
+        "packages/*"
+    ],
+    "dependencies": {
+        "next-auth": "^4.24.5"
+    }
 }
