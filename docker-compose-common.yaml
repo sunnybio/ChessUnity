@@ -15,8 +15,8 @@ services:
     game_server:
         build:
             context: .
-            dockerfile: Dockerfile.ws
-
+            dockerfile: Dockerfile.common
+            targer: development
         ports:
             - '3000:3000'
 

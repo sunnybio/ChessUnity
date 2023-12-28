@@ -21,8 +21,8 @@ services:
             - '8080:8080'
 
         environment:
-            - MONGODB_URL=mongodb://mongodb:27017
-            - REDIS_URL=redis://redis:6379
+            - MONGODB_URL= ${mdb}
+            - REDIS_URL=${red}
         depends_on:
             - mongodb
             - redis
@@ -35,8 +35,8 @@ services:
             - '3000:3000'
 
         environment:
-            - MONGODB_URL=mongodb://mongodb:27017
-            - WEBSOCKETSERVER_URL=ws://game_server:8080
+            - MONGODB_URL=${mdb}
+            - WEBSOCKETSERVER_URL=${webs}
         depends_on:
             - game_server
 volumes:
