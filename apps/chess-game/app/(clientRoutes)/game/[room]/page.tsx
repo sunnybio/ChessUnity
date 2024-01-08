@@ -80,7 +80,7 @@ const GameRoom = (): JSX.Element => {
     }
 
     useEffect(() => {
-        console.log(process.env)
+        console.log('env:', process.env)
         let WEBSOCKETSERVER_URL: string | undefined =
             process.env.WEBSOCKETSERVER_URL
 

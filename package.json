@@ -1,17 +1,18 @@
 {
     "private": true,
     "scripts": {
-        "build": "turbo run build",
-        "dev": "turbo run dev",
+        "build": "dotenv -- turbo run build",
+        "dev": "dotenv -- turbo run dev",
         "lint": "turbo run lint",
-        "start": "turbo run start",
+        "start": "dotenv -e .env.production -- turbo run start",
         "format": "prettier --write \"**/*.{ts,tsx,md}\""
     },
     "devDependencies": {
         "eslint": "^8.48.0",
         "prettier": "^3.0.3",
         "tsconfig": "*",
-        "turbo": "^1.11.2"
+        "turbo": "^1.11.2",
+        "dotenv-cli": "latest"
     },
     "name": "chessWebApp",
     "packageManager": "yarn@1.22.19",

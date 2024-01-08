@@ -1,43 +1,42 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
 declare global {
-    var mongoose: any;
+    var mongoose: any
 }
-let MONGODB_URI: string = process.env.MONGODB_URL!;
-
-mongoose.set("strictQuery", false);
+let MONGODB_URI: string = process.env.MONGODB_URL!
+mongoose.set('strictQuery', false)
 
 if (!MONGODB_URI) {
-    throw new Error("mongodb uri not present in env file");
+    throw new Error('mongodb uri not present in env file')
 }
 
-let cached = global.mongoose;
+let cached = global.mongoose
 
 if (!cached) {
-    cached = global.mongoose = { conn: null, promise: null };
+    cached = global.mongoose = { conn: null, promise: null }
 }
 
 async function dbConnect() {
-    if (cached.conn) return cached.conn;
+    if (cached.conn) return cached.conn
 
     if (!cached.promise) {
         const opts = {
             bufferCommands: false,
-            dbName: "ChessUnity",
-        };
+            dbName: 'ChessUnity',
+        }
         cached.promise = mongoose
             .connect(MONGODB_URI, opts)
             .then((mongoose) => {
-                return mongoose;
-            });
+                return mongoose
+            })
     }
 
     try {
-        cached.conn = await cached.promise;
+        cached.conn = await cached.promise
     } catch (e) {
-        cached.promise = null;
-        throw e;
+        cached.promise = null
+        throw e
     }
-    return cached.conn;
+    return cached.conn
 }
 
-export default dbConnect;
+export default dbConnect

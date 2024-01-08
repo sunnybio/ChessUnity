@@ -13,8 +13,8 @@ export class RedisSubscriptionManager {
     >
 
     private constructor() {
-        let redisUrl: string | undefined = process.env.REDIS_URL
-        redisUrl = 'redis://redis:6379'
+        const redisUrl: string | undefined = process.env.REDIS_URL
+        console.log('redis url==================', redisUrl)
         if (!redisUrl) {
             throw new Error('redis url not found ')
         }

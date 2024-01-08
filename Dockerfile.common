@@ -1,4 +1,4 @@
-FROM node:alpine as base
+FROM node:latest as base
 
 EXPOSE 3000
 
@@ -9,6 +9,8 @@ COPY ["turbo.json", "./turbo.json"]
 COPY ["yarn.lock", "./yarn.lock"]
 COPY ["tsconfig.json", "./tsconfig.json"]
 
+COPY [".env", "./.env"]
+COPY [".env.production", "./.env.production"]
 COPY ["apps", "./apps"]
 COPY ["packages/backend", "./packages/backend"]
 COPY ["packages/db", "./packages/db"]

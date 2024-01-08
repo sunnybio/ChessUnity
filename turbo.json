@@ -1,11 +1,11 @@
 {
     "$schema": "https://turbo.build/schema.json",
     "globalDependencies": [".env", ".env.local", "tsconfig.json"],
+    "globalDotEnv": [".env"],
     "pipeline": {
         "build": {
             "dependsOn": ["^build"],
-            "outputs": [".next/**", "!.next/cache/**"],
-            "env": ["WEBSOCKETSERVER_URL"]
+            "outputs": [".next/**", "!.next/cache/**"]
         },
         "lint": {},
         "dev": {
@@ -14,7 +14,8 @@
         },
         "start": {
             "cache": true,
-            "persistent": true
+            "persistent": true,
+            "dotEnv": [".env.production"]
         }
     }
 }
