@@ -1,6 +1,11 @@
 {
     "$schema": "https://turbo.build/schema.json",
-    "globalDependencies": [".env", ".env.local", "tsconfig.json"],
+    "globalDependencies": [
+        ".env",
+        ".env.local",
+        "tsconfig.json",
+        "WEBSOCKET_URL"
+    ],
     "globalDotEnv": [".env"],
     "pipeline": {
         "build": {
