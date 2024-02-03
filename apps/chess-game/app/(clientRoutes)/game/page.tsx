@@ -7,6 +7,7 @@ const MainPage = () => {
 
     const WEBSOCKETSERVER_URL: string | undefined =
         process.env.WEBSOCKETSERVER_URL
+    console.log('websocker url', WEBSOCKETSERVER_URL)
     const createGame = () => {
         axios
             .get(`${WEBSOCKETSERVER_URL}/create-room`)
