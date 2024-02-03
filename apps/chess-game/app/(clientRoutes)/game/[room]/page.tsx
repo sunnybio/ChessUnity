@@ -81,10 +81,9 @@ const GameRoom = (): JSX.Element => {
 
     useEffect(() => {
         console.log('env:', process.env)
-        let WEBSOCKETSERVER_URL: string | undefined =
+        const WEBSOCKETSERVER_URL: string | undefined =
             process.env.WEBSOCKETSERVER_URL
 
-        WEBSOCKETSERVER_URL = 'ws://localhost:8080'
         console.log('here')
         console.log(WEBSOCKETSERVER_URL)
         if (!WEBSOCKETSERVER_URL) {

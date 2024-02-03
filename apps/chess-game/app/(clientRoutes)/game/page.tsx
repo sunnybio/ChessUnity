@@ -4,9 +4,13 @@ import { useRouter } from 'next/navigation'
 import axios from 'axios'
 const MainPage = () => {
     const router = useRouter()
+
+    const WEBSOCKETSERVER_URL: string | undefined =
+        process.env.WEBSOCKETSERVER_URL
     const createGame = () => {
         axios
-            .get('http://localhost:8080/create-room')
+            .get(`${WEBSOCKETSERVER_URL}/create-room`)
+
             .then((data) => {
                 console.log(data)
                 router.push(`/game/${data.data}`)
@@ -19,7 +23,7 @@ const MainPage = () => {
 
     const joinGame = () => {
         axios
-            .get('http://localhost:8080/join-room')
+            .get(`${WEBSOCKETSERVER_URL}/join-room`)
             .then((data) => {
                 console.log(data)
                 router.push(`/game/${data.data}`)
