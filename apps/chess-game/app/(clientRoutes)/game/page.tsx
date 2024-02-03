@@ -6,7 +6,7 @@ const MainPage = () => {
     const router = useRouter()
 
     const WEBSOCKETSERVER_URL: string | undefined =
-        process.env.WEBSOCKETSERVER_URL
+        process.env.NEXT_PUBLIC_SERVER_URL
     console.log('websocker url', WEBSOCKETSERVER_URL)
     const createGame = () => {
         axios
