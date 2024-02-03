@@ -14,7 +14,7 @@ COPY ["packages/backend", "./packages/backend"]
 COPY ["packages/db", "./packages/db"]
 COPY ["packages/eslint-config-custom", "./packages/eslint-config-custom"]
 COPY ["packages/tsconfig", "./packages/tsconfig"]
-
+COPY [".env.production", "./apps/game-server/.env"]
 
 
 
@@ -30,9 +30,6 @@ WORKDIR /base/apps/game-server
 
 FROM base as development
 
-ENV MONGODB_URL=mongodb://mongodb:27017
-ENV REDIS_URL=redis://redis:6379
-ENV WEBSOCKETSERVER_URL=ws://game_server:8080
 
 CMD ["yarn","dev"]
 
