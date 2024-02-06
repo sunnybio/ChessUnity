@@ -36,45 +36,49 @@ wss.on('connection', async function connection(ws: any) {
         const data: Message = JSON.parse(message.toString())
 
         if (data.type === 'join') {
-            // if (rooms.get(data.payload.roomId)) {
-            //
-            //     rooms.set(
-            //         data.payload.roomId,
-            //
-            //         rooms.get(data.payload.roomId) + 1
-            //     )
-            // }
-            console.log(`joining:- ${data}`)
-            const roomId: string = data.payload.roomId
-            players[wsId] = {
-                room: data.payload.roomId,
-                ws,
-            }
-            RedisSubscriptionManager.getInstance().subscribe(
-                wsId,
-                data.payload.roomId,
-                ws
-            )
-
-            if (rooms.has(roomId)) {
-                const playerNumber: number | undefined = rooms.get(roomId)
-
-                if (playerNumber != undefined && playerNumber < 2) {
-                    rooms.set(roomId, playerNumber + 1)
-                    const joiningMsg = {
-                        type: 'game-start',
-                        message: {
-                            orientation: 'white',
-                            postionFen: '',
-                        },
-                    }
-                    RedisSubscriptionManager.getInstance().startgame(
-                        roomId,
-                        joiningMsg.message
-                    )
+            try {
+                // if (rooms.get(data.payload.roomId)) {
+                //
+                //     rooms.set(
+                //         data.payload.roomId,
+                //
+                //         rooms.get(data.payload.roomId) + 1
+                //     )
+                // }
+                console.log(`joining:- ${data}`)
+                const roomId: string = data.payload.roomId
+                players[wsId] = {
+                    room: data.payload.roomId,
+                    ws,
                 }
-            } else {
-                rooms.set(roomId, 1)
+                RedisSubscriptionManager.getInstance().subscribe(
+                    wsId,
+                    data.payload.roomId,
+                    ws
+                )
+
+                if (rooms.has(roomId)) {
+                    const playerNumber: number | undefined = rooms.get(roomId)
+
+                    if (playerNumber != undefined && playerNumber < 2) {
+                        rooms.set(roomId, playerNumber + 1)
+                        const joiningMsg = {
+                            type: 'game-start',
+                            message: {
+                                orientation: 'white',
+                                postionFen: '',
+                            },
+                        }
+                        RedisSubscriptionManager.getInstance().startgame(
+                            roomId,
+                            joiningMsg.message
+                        )
+                    }
+                } else {
+                    rooms.set(roomId, 1)
+                }
+            } catch (error) {
+                console.log(error)
             }
         }
         if (data.type === 'message') {
@@ -105,6 +109,7 @@ const generateRandomString = (length: number): string => {
 app.get('/create-room', (req, res) => {
     const roomId: string = generateRandomString(12)
 
+    console.log('here1233123')
     emptyRooms.push(roomId)
     res.send(roomId)
 })

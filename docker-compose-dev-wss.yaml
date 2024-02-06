@@ -1,0 +1,27 @@
+version: '1'
+
+services:
+    # mongodb:
+    #     image: mongo
+    #     ports:
+    #         - '27017:27017'
+
+    #     volumes:
+    #         - mongodb_data:/data/db
+    redis:
+        image: redis:alpine
+        ports:
+            - '6379:6379'
+    game_server:
+        build:
+            context: .
+            dockerfile: Dockerfile.ws
+            target: development
+        volumes:
+            - ./apps/game-server/:/base/apps/game-server/
+
+        ports:
+            - '8080:8080'
+
+        depends_on:
+            - redis
